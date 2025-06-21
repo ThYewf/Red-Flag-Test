@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Red Flag Test: Would You Fall for It?</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Poppins:wght@700;900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', Arial, sans-serif; }
+    h1, h2, h3, h4 { font-family: 'Poppins', Arial, sans-serif; }
+  </style>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-gray-900 via-indigo-900 to-gray-800 text-white relative">
+
+  <!-- Header -->
+  <header class="w-full py-8 px-10 flex justify-between items-center z-10 relative">
+    <h1 class="text-4xl md:text-5xl font-extrabold drop-shadow-lg tracking-tight">Red Flag Test: Would You Fall for It?</h1>
+    <nav class="space-x-6 text-lg">
+      <a href="about.html" class="font-semibold hover:text-indigo-400 transition">Red Flags</a>
+      <a href="quiz.html" class="font-semibold hover:text-indigo-400 transition">Quiz</a>
+      <a href="posters.html" class="font-semibold hover:text-indigo-400 transition">Posters</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="w-full px-6 md:px-20 py-20 flex flex-col-reverse md:flex-row items-center justify-between gap-16">
+    <!-- Text Area -->
+    <div class="flex-1 max-w-lg md:max-w-md">
+      <h2 class="text-4xl md:text-5xl font-extrabold text-white leading-tight mb-6">
+        Think Before You Click
+      </h2>
+      <p class="text-lg md:text-xl text-gray-300 mb-8">
+        Online predators often use manipulation, fake identities, and social engineering. Learn how to recognize the red flags and stay in control of your digital life.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="about.html" class="bg-indigo-700 hover:bg-indigo-800 text-white font-medium py-3 px-6 rounded-lg shadow-md transition-all">
+          Learn the Tactics
+        </a>
+        <a href="quiz.html" class="bg-slate-800 hover:bg-slate-700 text-white font-medium py-3 px-6 rounded-lg border border-slate-500 transition-all">
+          Take the Quiz
+        </a>
+      </div>
+    </div>
+  
+    <!-- Image Carousel (Large, Simple Arrows, Local+Online Images) -->
+    <div class="flex-1 flex justify-center">
+      <div 
+        x-data="{
+          active: 0,
+          images: [
+            'carou1.png',
+            'carou2.png',
+            'carou3.png',
+            'carou4.png'
+          ],
+          interval: null,
+          start() {
+            this.interval = setInterval(() => {
+              this.active = (this.active + 1) % this.images.length;
+            }, 4000);
+          },
+          stop() {
+            clearInterval(this.interval);
+            this.interval = null;
+          },
+          goTo(i) {
+            this.active = i;
+            this.stop();
+            this.start();
+          },
+          prev() {
+            this.active = (this.active - 1 + this.images.length) % this.images.length;
+            this.stop();
+            this.start();
+          },
+          next() {
+            this.active = (this.active + 1) % this.images.length;
+            this.stop();
+            this.start();
+          }
+        }"
+        x-init="start()"
+        class="relative w-full max-w-4xl h-96 md:h-[32rem] rounded-3xl shadow-2xl bg-white/10 backdrop-blur-lg border border-white/20 overflow-hidden flex items-center justify-center"
+      >
+        <!-- Images -->
+        <template x-for="(img, i) in images" :key="i">
+          <img :src="img"
+               x-show="active === i"
+               class="absolute inset-0 object-contain w-full h-full transition-opacity duration-1000"
+               x-transition.opacity
+               alt="carousel image">
+        </template>
+
+        <!-- Left Arrow (Simple) -->
+        <button @click="prev" class="absolute left-4 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-60 text-white rounded-full p-3 shadow hover:bg-opacity-90 transition z-10">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
+          </svg>
+        </button>
+        <!-- Right Arrow (Simple) -->
+        <button @click="next" class="absolute right-4 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-60 text-white rounded-full p-3 shadow hover:bg-opacity-90 transition z-10">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M9 5l7 7-7 7" />
+          </svg>
+        </button>
+
+        <!-- Dots -->
+        <div class="absolute bottom-6 left-1/2 -translate-x-1/2 flex space-x-3 z-10">
+          <template x-for="(img, i) in images" :key="i">
+            <button
+              @click="goTo(i)"
+              :class="{'bg-yellow-400 shadow-lg scale-125': active === i, 'bg-gray-400': active !== i}"
+              class="w-4 h-4 rounded-full transition-all border-2 border-white"
+            ></button>
+          </template>
+        </div>
+      </div>
+    </div>
+  </main>
+  
+  
+  <!-- Real Story Quote -->
+  <section class="max-w-4xl mx-auto px-8 py-12 bg-gray-900 bg-opacity-60 rounded-2xl shadow-inner mt- md:mt-26">
+    <blockquote class="text-xl md:text-2xl italic text-yellow-300">“He said he was 16... but he was 35.”</blockquote>
+    <p class="mt-4 text-gray-300 text-base md:text-lg">Real teens have been tricked, manipulated, and targeted. Don't let it be you. Learn the signs and speak up.</p>
+  </section>
+
+  <!-- Info Cards -->
+  <section class="grid grid-cols-1 md:grid-cols-3 gap-6 px-8 md:px-20 mt-20 mb-16">
+    <a href="about.html" class="group bg-gray-800 p-6 rounded-xl shadow-lg hover:scale-105 hover:bg-indigo-800 transition block">
+      <h3 class="text-xl font-bold mb-2 text-yellow-300 group-hover:text-white">🧠 Did You Know?</h3>
+      <p class="text-gray-300 group-hover:text-white">60% of grooming cases start in DMs. Learn how predators act like friends to gain trust.</p>
+    </a>
+  
+    <a href="quiz.html" class="group bg-gray-800 p-6 rounded-xl shadow-lg hover:scale-105 hover:bg-purple-800 transition block">
+      <h3 class="text-xl font-bold mb-2 text-pink-400 group-hover:text-white">🎯 Red Flag Challenge</h3>
+      <p class="text-gray-300 group-hover:text-white">Spot the manipulative messages in our interactive quiz. Trust your gut!</p>
+    </a>
+  
+    <a href="posters.html" class="group bg-gray-800 p-6 rounded-xl shadow-lg hover:scale-105 hover:bg-yellow-600 transition block">
+      <h3 class="text-xl font-bold mb-2 text-yellow-200 group-hover:text-white">📲 Your Digital Footprint</h3>
+      <p class="text-gray-300 group-hover:text-white">Oversharing online leaves clues. Learn how to protect your presence.</p>
+    </a>
+  </section>
+  
+
+  <!-- Footer -->
+  <footer class="w-full text-center text-gray-400 text-sm py-6 border-t border-gray-700">
+    🚨 Need help? Call <a href="https://www.kpwkm.gov.my/portal-main/article?id=talian-kasih" class="text-indigo-300 underline hover:text-indigo-400">Talian Kasih 15999</a>  
+    |  <a href="aboutus.html" class="text-yellow-400 underline">About Us</a>
+  </footer>
+
+</body>
+</html>
